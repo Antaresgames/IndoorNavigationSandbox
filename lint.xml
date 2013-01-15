@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="ViewConstructor">
+        <ignore path="src\cz\muni\fi\sandbox\service\grid\StochasticView.java" />
+        <ignore path="src\cz\muni\fi\sandbox\service\particle\ParticleView.java" />
+    </issue>
+</lint>
