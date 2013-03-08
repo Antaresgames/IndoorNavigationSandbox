@@ -163,6 +163,12 @@
             android:name=".service.orientation.CompassDeflectionDemo"
             android:screenOrientation="portrait" >
         </activity>
+        
+                <activity
+            android:label="Step-length Calibration"
+            android:name=".StepCalibrationActivity"
+            android:screenOrientation="portrait">
+        </activity>
        
         <activity
             android:label="Delaunay Triangulation"

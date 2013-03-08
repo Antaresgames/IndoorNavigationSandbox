@@ -102,6 +102,10 @@
             android:summary="@string/summary_step_detection_preference"
             android:title="@string/title_step_detection_preference" />
          -->
+         
+         <Preference 
+             android:key="step_length_calibration"
+             android:title="Caibrate step-length" />
                 
         <EditTextPreference
             android:key="long_moving_average_window_preference"

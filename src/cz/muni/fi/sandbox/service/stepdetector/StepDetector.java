@@ -22,6 +22,10 @@ public class StepDetector implements SensorEventListener, IStepDetector {
 			mStepListeners.add(sl);
 		}
 	}
+	
+	public void clearStepListeners() {
+		mStepListeners.clear();
+	}
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {

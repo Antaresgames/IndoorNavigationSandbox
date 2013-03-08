@@ -30,17 +30,17 @@ public class NavigationSandboxList extends DemoListActivity {
 				new IntentPair("Pedestrian Navigation", new Intent(this,
 						PedestrianNavigationPrototype.class)),
 				
-//				new IntentPair("Precision Evaluation Activity", new Intent(this,
-//						PrecisionEvaluationActivity.class)),
-//						
-//				new IntentPair("Device Orientation & Motion", new Intent(this,
-//						DeviceOrientationAndMotionDemoListActivity.class)),
-//
-//				new IntentPair("Radio Positioning Methods", new Intent(this,
-//						RadioPositioningDemoListActivity.class)),
-//
-//				new IntentPair("Position Computation Methods", new Intent(this,
-//						PositionComputationDemoListActivity.class)),
+				new IntentPair("Precision Evaluation Activity", new Intent(this,
+						PrecisionEvaluationActivity.class)),
+						
+				new IntentPair("Device Orientation & Motion", new Intent(this,
+						DeviceOrientationAndMotionDemoListActivity.class)),
+
+				new IntentPair("Radio Positioning Methods", new Intent(this,
+						RadioPositioningDemoListActivity.class)),
+
+				new IntentPair("Position Computation Methods", new Intent(this,
+						PositionComputationDemoListActivity.class)),
 				
 				new IntentPair("Preferences", new Intent(this,
 						Preferences.class)),

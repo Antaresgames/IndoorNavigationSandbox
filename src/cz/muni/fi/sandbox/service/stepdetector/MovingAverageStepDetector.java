@@ -61,7 +61,7 @@ public class MovingAverageStepDetector extends StepDetector {
 
 	public class MovingAverageStepDetectorState {
 		float[] values;
-		boolean[] states;
+		public boolean[] states;
 		double duration;
 
 		MovingAverageStepDetectorState(float[] values, boolean[] states, double duration) {
