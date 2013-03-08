@@ -150,8 +150,8 @@ public class StepCalibrationActivity extends Activity implements SensorEventList
 		Toast.makeText(StepCalibrationActivity.this, "average step length: "+averageStepLength+", spread: "+stepLengthSpread, Toast.LENGTH_LONG).show();
 		
 		Editor prefs = PreferenceManager.getDefaultSharedPreferences(StepCalibrationActivity.this).edit();
-		prefs.putFloat("step_length", (float)averageStepLength);
-		prefs.putFloat("step_length_spread", (float)stepLengthSpread);
+		prefs.putString("step_length_preference", String.valueOf((float)averageStepLength));
+		prefs.putString("step_length_spread_preference", String.valueOf((float)stepLengthSpread));
 		prefs.commit();
 		
 		finish();
