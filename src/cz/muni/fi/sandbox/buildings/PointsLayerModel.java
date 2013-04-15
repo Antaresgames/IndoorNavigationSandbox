@@ -118,9 +118,9 @@ public class PointsLayerModel implements Serializable {
 		return completeSet.put(new Point2D(x1, y1), name)==null;
 	}
 
-//	public Collection<Point2D> getCompleteSet() {
-//		return Collections.unmodifiableCollection(completeSet);
-//	}
+	public Map<Point2D, String> getCompleteSet() {
+		return Collections.unmodifiableMap(completeSet);
+	}
 
 //	public Collection<Point2D> getWorkingSet() {
 //		return Collections.unmodifiableCollection(workingSet);

@@ -695,4 +695,14 @@ public class ParticlePosition implements PositionModel,
 
 	}
 
+	@Override
+	public double getX() {
+		return getCoordinates()[0];
+	}
+
+	@Override
+	public double getY() {
+		return getCoordinates()[1];
+	}
+
 }

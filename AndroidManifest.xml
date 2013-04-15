@@ -3,18 +3,30 @@
     package="cz.muni.fi.sandbox"
     android:versionCode="1"
     android:versionName="1.0">
+    
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
 
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="14" />
+    
+    <permission
+        android:name="cz.muni.fi.sandbox.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+	<uses-permission android:name="cz.muni.fi.sandbox.permission.MAPS_RECEIVE"/>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     
     
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -37,6 +49,7 @@
 
     <application
         android:icon="@drawable/icon"
+        android:theme="@android:style/Theme.Black"
         android:label="@string/app_name"
         android:name=".NavigationSandboxApplication">
 
@@ -76,6 +89,13 @@
             android:screenOrientation="portrait">
         </activity>
         
+        <activity
+            android:label="Pedestrian Navigation Prototype with Google Maps"
+            android:name=".navigation.PedestrianNavigationPrototypeGM"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock">
+        </activity>        
+        
                 <activity
             android:label="Scan Code"
             android:name=".navigation.ScanCodeActivity"
@@ -101,6 +121,17 @@
             android:label="Step Detection Demonstration"
             android:name=".service.stepdetector.StepDetectionDemo" >
         </activity>
+        
+                <activity
+            android:label="Step Detection Demonstration - Linear Acceleration"
+            android:name=".service.stepdetector.StepDetectionDemoLinear" >
+        </activity>
+        
+        <activity
+            android:label="Step Detection Demonstration Gravity"
+            android:name=".service.stepdetector.StepDetectionDemoGravity" >
+        </activity>        
+        
         <activity
             android:label="FFT of Accelerometer signal"
             android:name=".service.stepdetector.StepDetectionFFT"
@@ -174,6 +205,11 @@
             android:label="Delaunay Triangulation"
             android:name=".toys.DelaunayTriangulationDemo" >
         </activity>
+        
+        
+        <meta-data
+    android:name="com.google.android.maps.v2.API_KEY"
+    android:value="AIzaSyCpX-Xr16saJ-1eLc7mXSm0RLO6_ExIlhU"/>
     </application>
 
 </manifest>

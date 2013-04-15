@@ -74,5 +74,13 @@ public class SimplePosition implements PositionModel {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public double getX() {
+		return (double)mCoords[0];
+	}
+	@Override
+	public double getY() {
+		return (double)mCoords[1];
+	}
 
 }

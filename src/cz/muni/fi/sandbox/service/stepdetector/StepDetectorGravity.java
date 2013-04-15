@@ -13,64 +13,57 @@ import cz.muni.fi.sandbox.dsp.filters.SignalPowerTD;
  * @author Michal Holcik
  * 
  */
-public class MovingAverageStepDetector extends StepDetector {
+public class StepDetectorGravity extends StepDetector {
 	
-	private static final String TAG = "MovingAverageStepDetector";
-	private float[] maValues;
-	private MovingAverageTD[] ma;
+	private static final String TAG = "GravityStepDetector";
+	private float[] mValue;
+	private float mSignalPower;
 	private CumulativeSignalPowerTD asp;
-	private boolean mMASwapState;
+	private boolean mSwapState;
 	private boolean stepDetected;
 	private boolean signalPowerCutoff;
 	private long mLastStepTimestamp;
 	private double strideDuration;
 	
 	private static final long SECOND_IN_NANOSECONDS = (long) Math.pow(10, 9);
-	public static final double MA1_WINDOW = 0.2;
-	public static final double MA2_WINDOW = 5 * MA1_WINDOW;
 	private static final long POWER_WINDOW = SECOND_IN_NANOSECONDS / 10;
-	public static final float POWER_CUTOFF_VALUE = 1000.0f;
+	public static final float POWER_CUTOFF_VALUE = 2000.0f;
 	private static final double MAX_STRIDE_DURATION = 2.0; // in seconds
-	
-	private double mWindowMa1;
-	private double mWindowMa2;
-	private long mWindowPower;
+//	private long mWindowPower;
 	private float mPowerCutoff;
 	
-	public MovingAverageStepDetector() {
-		this(MA1_WINDOW, MA2_WINDOW, POWER_CUTOFF_VALUE);
+	public StepDetectorGravity() {
+		this(POWER_CUTOFF_VALUE);
 	}
 
-	public MovingAverageStepDetector(double windowMa1, double windowMa2, double powerCutoff) {
+	public StepDetectorGravity(double powerCutoff) {
+		mValue = new float[2];
 		
-		mWindowMa1 = windowMa1;
-		mWindowMa2 = windowMa2;
+		
 		mPowerCutoff = (float)powerCutoff;
 		
-		maValues = new float[4];
-		mMASwapState = true;
-		ma = new MovingAverageTD[] { new MovingAverageTD(mWindowMa1),
-				new MovingAverageTD(mWindowMa1),
-				new MovingAverageTD(mWindowMa2) };
+		mSwapState = true;
+		
 		asp = new CumulativeSignalPowerTD();
 		stepDetected = false;
 		signalPowerCutoff = true;
 	}
 
-	public class MovingAverageStepDetectorState {
-		float[] values;
+	public class StepDetectorGravityState {
+		float[] value;
+		float power;
 		public boolean[] states;
 		double duration;
 
-		MovingAverageStepDetectorState(float[] values, boolean[] states, double duration) {
-			this.values = values;
+		StepDetectorGravityState(float[] value, float power, boolean[] states, double duration) {
+			this.value = value;
+			this.power = power;
 			this.states = states;
 		}
 	}
 
-	public MovingAverageStepDetectorState getState() {
-		return new MovingAverageStepDetectorState(new float[] { maValues[0],
-				maValues[1], maValues[2], maValues[3] }, new boolean[] {
+	public StepDetectorGravityState getState() {
+		return new StepDetectorGravityState(mValue, mSignalPower, new boolean[] {
 				stepDetected, signalPowerCutoff }, strideDuration);
 	}
 
@@ -78,44 +71,36 @@ public class MovingAverageStepDetector extends StepDetector {
 		return mPowerCutoff;
 	}
 
-	private void processAccelerometerValues(long timestamp, float[] values) {
+	private void processSensorValues(long timestamp, float[] values) {
+		float value = (float) values[2];
 
-		float value = values[2];
-
-		// compute moving averages
-		maValues[0] = value;
-		for (int i = 1; i < 3; i++) {
-			ma[i].push(timestamp, value);
-			maValues[i] = (float) ma[i].getAverage();
-			value = maValues[i];
-		}
-
-		// detect moving average crossover
+		// detect crossover
+		boolean newSwapState = (mValue[0] >= mValue[1]) && (mValue[1] <= value);
 		stepDetected = false;
-		boolean newSwapState = maValues[1] > maValues[2];
-		if (newSwapState != mMASwapState) {
-			mMASwapState = newSwapState;
-			if (mMASwapState) {
+		if (newSwapState != mSwapState) {
+			mSwapState = newSwapState;
+			if (mSwapState) {
 				stepDetected = true;
 			}
 		}
-
-		// compute signal power
-		asp.push(timestamp, maValues[1] - maValues[2]);
-		// maValues[3] = (float)sp.getPower();
-		maValues[3] = (float) asp.getValue();
-		signalPowerCutoff = maValues[3] < mPowerCutoff;
+		
+		asp.push(timestamp, value);
+		
+		mSignalPower = (float) asp.getValue();
+		signalPowerCutoff = mSignalPower < mPowerCutoff;
 
 		if (stepDetected) {
 			asp.reset();
 		}
+		
+		mValue[0] = mValue[1];
+		mValue[1] = value;
 
 		// step event
 		if (stepDetected && !signalPowerCutoff) {
 			strideDuration = getStrideDuration();
 			notifyOnStep(new StepEvent(1.0, strideDuration));
 		}
-
 	}
 
 	/**
@@ -142,8 +127,8 @@ public class MovingAverageStepDetector extends StepDetector {
 		// Log.d(TAG, "sensor: " + sensor + ", x: " + values[0] + ", y: " +
 		// values[1] + ", z: " + values[2]);
 		synchronized (this) {
-			if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-				processAccelerometerValues(event.timestamp, event.values);
+			if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
+				processSensorValues(event.timestamp, event.values);
 			}
 		}
 	}

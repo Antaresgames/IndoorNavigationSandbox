@@ -403,7 +403,7 @@ public class MapView
 		public boolean onScale(ScaleGestureDetector detector) {
 			Log.d(TAG, "onScale event " + detector.getScaleFactor() + " "
 					+ detector.getFocusX() + " " + detector.getFocusY());
-			if (detector.getScaleFactor() * mScreenScale>=15 
+			if (detector.getScaleFactor() * mScreenScale>=1 
 					&& detector.getScaleFactor() * mScreenScale<=150) {
 				float focusX = detector.getFocusX();
 				float focusY = detector.getFocusY();

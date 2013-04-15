@@ -87,7 +87,7 @@ public class WifiLocalizationActivity extends Activity implements
 		mBuildingName = mSharedPrefs.getString("building_plan_name_preference",
 				"");
 		mBuildingPath = mSharedPrefs.getString(
-				"data_root_dir_preference", "");
+				"data_root_dir_preference", "indoor");
 		if (mBuildingPath.equals("")) {
 			mBuildingPath += "plans";
 		} else {
@@ -95,6 +95,7 @@ public class WifiLocalizationActivity extends Activity implements
 		}
 		
 		mBuilding = Building.factory(mBuildingName, mBuildingPath);
+		System.out.println(mBuilding);
 
 		mNaviView = new MapView(this);
 		mNaviView.setBuilding(mBuilding);
@@ -150,7 +151,7 @@ public class WifiLocalizationActivity extends Activity implements
 		if (!mBuildingName.equals(newBuildingName)) {
 			mBuildingName = newBuildingName;
 			mBuildingPath = mSharedPrefs.getString(
-					"data_root_dir_preference", "");
+					"data_root_dir_preference", "indoor");
 			if (mBuildingPath.equals("")) {
 				mBuildingPath += "plans";
 			} else {

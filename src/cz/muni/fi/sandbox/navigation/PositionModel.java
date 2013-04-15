@@ -10,7 +10,10 @@ public interface PositionModel extends MotionUpdateListener {
 	public PositionRenderer getRenderer();
 	public void setPositionProvider(MotionProvider provider);
 	public void setPosition(float posX, float posY, int area);
-	public void setBuilding(Building building);	
+	public void setBuilding(Building building);
 	public float getHeading();
 	public void updatePreferences(SharedPreferences prefs);
+	
+	public double getX();
+	public double getY();
 }

@@ -140,7 +140,7 @@ public class ParticleModelActivity extends Activity {
 
 	Building loadBuilding() {
 		Building building = Building.factory(mBuildingName, mBuildingPath);
-		building.optimize();
+//		building.optimize();
 		return building;
 	}
 	

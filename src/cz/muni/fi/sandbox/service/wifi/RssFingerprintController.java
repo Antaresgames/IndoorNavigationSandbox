@@ -18,7 +18,7 @@ import cz.muni.fi.sandbox.utils.geometric.Point2D;
 
 public class RssFingerprintController implements SetPositionListener {
 
-	enum State {
+	public enum State {
 		IDLE, MEASURING, FINDING
 	};
 
@@ -82,7 +82,24 @@ public class RssFingerprintController implements SetPositionListener {
 
 	}
 	
+	public void setStateChangeListener(
+			RssFingerprintControllerStateChangeListener mStateChangeListener) {
+		this.mStateChangeListener = mStateChangeListener;
+	}
 	
+	public void setLocationAssignment(
+			LocationAssignmentAuthority mLocationAssignment) {
+		this.mLocationAssignment = mLocationAssignment;
+	}
+	
+	public void setFingerprintAdaptor(
+			IGetsYouRssFingerprints mFingerprintAdaptor) {
+		this.mFingerprintAdaptor = mFingerprintAdaptor;
+	}
+	
+	public void setLogger(WifiLogger mLogger) {
+		this.mLogger = mLogger;
+	}
 	
 	public void updatePreferences(SharedPreferences prefs) {
 
@@ -147,7 +164,7 @@ public class RssFingerprintController implements SetPositionListener {
 	public void measure() {
 		Log.d(TAG, "measure:");
 		if (mState == State.IDLE) {
-			// startMeasurement();
+//			 startMeasurement();
 			mLocationAssignment.requestSetPosition(this);
 		} else if (mState == State.MEASURING) {
 			stopMeasurement();
@@ -314,7 +331,10 @@ public class RssFingerprintController implements SetPositionListener {
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
 		mContext.registerReceiver(mBroadcastReceiver, intentFilter);
+		receiverRegistered = true;
 	}
+	
+	private boolean receiverRegistered = false;
 	
 	public void onPause() {
 		Log.d(TAG, "onPause:");
@@ -324,7 +344,10 @@ public class RssFingerprintController implements SetPositionListener {
 		} else if (getState() == RssFingerprintController.State.FINDING) {
 			localize();
 		}
-		mContext.unregisterReceiver(mBroadcastReceiver);
+		if (receiverRegistered)
+			mContext.unregisterReceiver(mBroadcastReceiver);
+		
+		receiverRegistered  = false;
 	}
 	
 	public WifiLayerModel getFingerprintSet() {

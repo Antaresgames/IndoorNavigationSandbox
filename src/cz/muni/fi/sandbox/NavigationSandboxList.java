@@ -18,6 +18,7 @@ package cz.muni.fi.sandbox;
 
 import android.content.Intent;
 import cz.muni.fi.sandbox.navigation.PedestrianNavigationPrototype;
+import cz.muni.fi.sandbox.navigation.PedestrianNavigationPrototypeGM;
 import cz.muni.fi.sandbox.navigation.PrecisionEvaluationActivity;
 
 public class NavigationSandboxList extends DemoListActivity {
@@ -29,6 +30,9 @@ public class NavigationSandboxList extends DemoListActivity {
 
 				new IntentPair("Pedestrian Navigation", new Intent(this,
 						PedestrianNavigationPrototype.class)),
+						
+				new IntentPair("Pedestrian Navigation with Google Maps", new Intent(this,
+						PedestrianNavigationPrototypeGM.class)),
 				
 				new IntentPair("Precision Evaluation Activity", new Intent(this,
 						PrecisionEvaluationActivity.class)),

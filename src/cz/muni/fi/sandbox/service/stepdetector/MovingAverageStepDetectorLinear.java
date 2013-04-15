@@ -13,9 +13,9 @@ import cz.muni.fi.sandbox.dsp.filters.SignalPowerTD;
  * @author Michal Holcik
  * 
  */
-public class MovingAverageStepDetector extends StepDetector {
+public class MovingAverageStepDetectorLinear extends StepDetector {
 	
-	private static final String TAG = "MovingAverageStepDetector";
+	private static final String TAG = "MovingAverageStepDetectorLinear";
 	private float[] maValues;
 	private MovingAverageTD[] ma;
 	private CumulativeSignalPowerTD asp;
@@ -37,11 +37,11 @@ public class MovingAverageStepDetector extends StepDetector {
 	private long mWindowPower;
 	private float mPowerCutoff;
 	
-	public MovingAverageStepDetector() {
+	public MovingAverageStepDetectorLinear() {
 		this(MA1_WINDOW, MA2_WINDOW, POWER_CUTOFF_VALUE);
 	}
 
-	public MovingAverageStepDetector(double windowMa1, double windowMa2, double powerCutoff) {
+	public MovingAverageStepDetectorLinear(double windowMa1, double windowMa2, double powerCutoff) {
 		
 		mWindowMa1 = windowMa1;
 		mWindowMa2 = windowMa2;
@@ -142,7 +142,7 @@ public class MovingAverageStepDetector extends StepDetector {
 		// Log.d(TAG, "sensor: " + sensor + ", x: " + values[0] + ", y: " +
 		// values[1] + ", z: " + values[2]);
 		synchronized (this) {
-			if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+			if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
 				processAccelerometerValues(event.timestamp, event.values);
 			}
 		}
